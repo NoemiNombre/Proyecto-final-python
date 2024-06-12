@@ -88,8 +88,8 @@ def estadisticas_precios(df):
  
     
 #pagina de donde se scrappea 
-# base_url = "https://farmaciascruzazul.ec/vitaminas-y-suplementos?pagenumber=1"    
-base_url="https://farmaciascruzazul.ec/vitaminas-y-suplementos?orderby=0&pagesize=54&price=1.00-136.00&viewmode="
+base_url = "https://farmaciascruzazul.ec/vitaminas-y-suplementos?pagenumber=1"    
+
 
 #ejecutar funciones
 productos = obtener_datos_todas_pags(base_url)
@@ -99,8 +99,6 @@ datos_procesados = procesar_datos(productos)
 
 df = guardar_datos_en_csv(datos_procesados,"productos2.csv")
 estadisticas_precios(df)
-
-
 
     
 #guardar en csv
