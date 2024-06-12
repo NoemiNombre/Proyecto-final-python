@@ -1,3 +1,4 @@
+#me confundi un poco en este codigo :(
 #importo las librerias 
 import requests
 from bs4 import BeautifulSoup
@@ -40,15 +41,15 @@ def scraper(url):
     return pd.DataFrame(products_data)
     
     
-def procesar_datos(product):
-    product['price'] = product['price'].replace(r'[\$,]', '', regex=True).astype(float)
+def procesar_datos(productos):
+    # product['price'] = product['price'].replace(r'[\$,]', '', regex=True).astype(float)
     
-    return product['price']
-#   processed_data = []
-#   for nombre, precio in productos:
-#     #convertir en flotante
-#       precio = float(precio.replace("$",""))
-#       processed_data.append({"Name": nombre, "Precio": precio})
+    # return product['price']
+  processed_data = []
+  for nombre, precio in productos:
+    #convertir en flotante
+      precio = float(precio.replace("$",""))
+      processed_data.append({"Name": nombre, "Precio": precio})
     
   
     
@@ -58,11 +59,10 @@ def obtener_datos_todas_pags(base_url):
   products_data =[]
   page =1
   while True:
-    url = f"{base_url}/catalogue/page-{page}.html"
+    url = f"{base_url}?pagenumber={page}"
     new_productos = scraper(url)
-    # if not new_productos:
-    #     new_productos.any()
-    #     break
+    if not new_productos:
+        break
 
     products_data.extend(new_productos)
     page +=1
@@ -88,13 +88,13 @@ def estadisticas_precios(df):
  
     
 #pagina de donde se scrappea 
-base_url = "https://farmaciascruzazul.ec/vitaminas-y-suplementos?pagenumber=1"    
+# base_url = "https://farmaciascruzazul.ec/vitaminas-y-suplementos?pagenumber=1"    
+base_url="https://farmaciascruzazul.ec/vitaminas-y-suplementos?orderby=0&pagesize=54&price=1.00-136.00&viewmode="
 
-#ejecutar funciones
 #ejecutar funciones
 productos = obtener_datos_todas_pags(base_url)
-
 datos_procesados = procesar_datos(productos)
+# datos_procesados = procesar_datos(productos)
 # escribir_datos_en_archivo(datos_procesados, "productos.txt")
 
 df = guardar_datos_en_csv(datos_procesados,"productos2.csv")
